@@ -1,0 +1,22 @@
+{
+  "name": "playlistsync",
+  "version": "1.0.0",
+  "description": "Aplicación innovadora que te permite sincronizar fácilmente listas de reproducción entre YouTube y Spotify, y viceversa.",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Sincronización de listas",
+    "YouTube",
+    "Spotify",
+    "Transferencia de música"
+  ],
+  "author": "jbernalme",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "16.3.1",
+    "express": "4.18.2"
+  }
+}
