@@ -1,0 +1,6 @@
+// correr contenedor
+docker run --name='testmysql' -e MYSQL_ROOT_PASSWORD=root -d -p 3306:3306 mysql/mysql-server  
+// ingresar al contenedor
+docker exec -it testmysql bash  
+
+docker start testmysql 
