@@ -1,12 +1,18 @@
 import express, { json } from 'express' // require -> commonJS
+import morgan from 'morgan'
 // import { corsMiddleware } from './middlewares/cors.js'
 import 'dotenv/config'
 import { pool } from './services/db.js'
 import { v1 } from './routes/api/v1.js'
-import { authValidate, authValidatePartial } from './schemas/authSchema.js'
+import {
+  authValidate,
+  authValidatePartial,
+  loginValidate
+} from './schemas/authSchema.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 
 const app = express()
+app.use(morgan('dev'))
 app.use(json())
 app.disable('x-powered-by')
 
@@ -22,16 +28,3 @@ app.listen(PORT, () => {
 
 // const [rows] = await pool.query(' SELECT * FROM users')
 // console.log(rows)
-
-const data = {
-  name: '33fghghf',
-  email: 'virke@xample.com',
-  password: 'secret45454545454',
-  password_confirmation: 'secret4545454545'
-}
-
-const validated = authValidate(data)
-const validated2 = authValidatePartial(data)
-
-// console.log(validated)
-console.log('format error', validated.error?.issues)

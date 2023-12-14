@@ -1,13 +1,13 @@
-import { pool } from '../services/db.js'
+// import { pool } from '../services/db.js'  <---- mysql vanilla
 import { prisma } from '../services/prisma.js'
-import bcrypt from 'bcrypt'
+import { encrypPassword, comparePassword } from '../utils/hashPassword.js'
 
 export class UserModel {
   static async create(data) {
     const { name, email, photo, password } = data
 
     // Encriptar pass
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const hashedPassword = await encrypPassword(password)
     const result = await prisma.user.create({
       data: {
         name,
@@ -15,6 +15,13 @@ export class UserModel {
         photo,
         password: hashedPassword
       }
+    })
+    return result
+  }
+
+  static async getByEmail(email) {
+    const result = await prisma.user.findUnique({
+      where: { email }
     })
     return result
   }

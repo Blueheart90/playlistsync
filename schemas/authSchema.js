@@ -1,6 +1,6 @@
 import z from 'zod'
 
-const authShema = z.object({
+const registerShema = z.object({
   name: z
     .string({
       invalid_type_error: 'El usuario debe ser un string',
@@ -23,9 +23,10 @@ const authShema = z.object({
     required_error: 'La confirmacion de contraseña es requerida.'
   })
 })
+const loginShema = registerShema.pick({ email: true, password: true })
 
 export const authValidate = (data) => {
-  return authShema
+  return registerShema
     .refine((data) => data.password === data.password_confirmation, {
       path: ['password_confirmation'],
       message: 'Las contraseñas no coinciden'
@@ -33,5 +34,9 @@ export const authValidate = (data) => {
     .safeParse(data)
 }
 export const authValidatePartial = (data) => {
-  return authShema.partial().safeParse(data)
+  return registerShema.partial().safeParse(data)
+}
+
+export const loginValidate = (data) => {
+  return loginShema.safeParse(data)
 }

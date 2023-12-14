@@ -8,4 +8,4 @@ export const v1 = Router()
 v1.get('/users', UserController.getAll)
 
 v1.post('/register', tryCatch(AuthController.register))
-v1.post('/login', AuthController.login)
+v1.post('/login', tryCatch(AuthController.login))
