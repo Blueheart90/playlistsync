@@ -7,7 +7,8 @@ import {
 import { UserModel } from '../models/user.js'
 import { successResponse } from '../utils/successResponse.js'
 import { ValidationError } from '../exceptions/validationError.js'
-import { comparePassword } from '../utils/hashPassword.js'
+import { checkUser } from '../utils/checkUser.js'
+import { CredencialError } from '../exceptions/credencialError.js'
 
 export class AuthController {
   static async login(req, res) {
@@ -18,9 +19,10 @@ export class AuthController {
     const { email, password } = req.body
 
     const user = await UserModel.getByEmail(email)
-    const checkPassword = await comparePassword(password, user.password)
-    console.log(checkPassword)
-    successResponse(res, 201, user)
+    const isAuth = await checkUser(user, password)
+    if (!isAuth) throw new CredencialError()
+
+    successResponse(res, 201, isAuth)
   }
   static async register(req, res) {
     const result = authValidate(req.body)
